@@ -168,20 +168,47 @@ for i in range(len(swatches_boxes)):
             else:
                 raise ValueError("There are two swatches with the same label")
 
-cv2.drawContours(
-    image_ret,
-    swatches_boxes,  # swatches on the image, not only the cluster
-    -1,
-    (1, 0, 1),
-    3,
-)
 
-cv2.drawContours(
-    image_ret,
-    segmentation_object.clusters,  # could be more than one cluster in the same image
-    -1,
-    (0, 1, 1),
-    3,
-)
+# ------  clean output ------
+def xy_to_xywh(xy: np.array) -> np.array:
+    """
+    Convert from xy coordinates to xywh coordinates.
+    """
+    return np.array([xy[0, 0], xy[0, 1], xy[2, 0] - xy[0, 0], xy[2, 1] - xy[0, 1]])
+
+
+def get_pixels_per_box(box: np.array, image: np.array) -> np.array:
+    """
+    Get the pixels per box. The box has the xywh format.
+    """
+    return image[box[1] : box[1] + box[3], box[0] : box[0] + box[2]]
+
+
+# remove without swatches
+output = {key: value for key, value in output.items() if value["has_box"]}
+# convert to xywh
+output = {
+    key: {**value, **{"box_xywh": xy_to_xywh(value["box"])}}
+    for key, value in output.items()
+}
+# get the pixels per box 0 - 1 format
+output = {
+    key: {**value, **{"pixels01": get_pixels_per_box(value["box_xywh"], image_ret)}}
+    for key, value in output.items()
+}
+# convert to 0 - 255 format
+output = {
+    key: {**value, **{"pixels": (value["pixels01"] * 255).astype(np.uint8)}}
+    for key, value in output.items()
+}
+
+
+def draw_contour_color(image: np.array, output: dict, color: str) -> np.array:
+    """
+    Draw the contour of a given color in the image
+    """
+    cv2.drawContours(image, np.array([output[color]["box"]]), -1, (1, 0, 1), 3)
+    return image
+
 
 print("done")
