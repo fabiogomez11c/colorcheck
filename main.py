@@ -3,13 +3,11 @@ import colour
 from colour.plotting import plot_image
 from colour.utilities.metrics import metric_mse
 import numpy as np
-import matplotlib
 
 from segment import detect_colour_checkers_segmentation
 from colour_checker_detection.detection.common import swatch_masks, swatch_colours
 
 from tqdm import tqdm
-import os
 
 video_path = "./colorcheck.avi"
 video = cv2.VideoCapture(video_path)
@@ -40,21 +38,6 @@ COLOUR_CHECKER_IMAGES = [
     colour.cctf_decoding(colour.io.read_image(path))
     for path in COLOUR_CHECKER_IMAGE_PATHS
 ]
-
-# SWATCHES = []
-# for colour_checker_data in detect_colour_checkers_segmentation(
-#     image, additional_data=True
-# ):
-#     swatch_colours, swatch_masks, colour_checker_image = colour_checker_data.values
-#     SWATCHES.append(swatch_colours)
-
-# break
-
-# process frame
-
-# clean output
-
-# store results
 
 (
     image_ret,
