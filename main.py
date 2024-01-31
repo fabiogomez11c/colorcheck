@@ -118,10 +118,6 @@ for frame_i in tqdm(range(frame_count)):
         ]
     )  # the result could be less than 24 swatches
 
-    # check if there are 24 swatches
-    # if len(swatches_boxes) != 24:
-    #     raise ValueError("The number of swatches is not 24")
-
     # get the masks in the frame coordinates
     masks_in_frame = swatch_masks_array + np.array(
         [cluster[0, 1], cluster[0, 1], cluster[0, 0], cluster[0, 0]]
