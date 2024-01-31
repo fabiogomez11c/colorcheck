@@ -605,4 +605,5 @@ def detect_colour_checkers_segmentation(
         image,
         segmentation_colour_checkers_data,
         colour_checkers_data[0] if len(colour_checkers_data) > 0 else None,
+        settings,
     )
