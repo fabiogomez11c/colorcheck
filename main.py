@@ -1,6 +1,5 @@
 import cv2
 import colour
-from colour.plotting import plot_image
 from colour.utilities.metrics import metric_mse
 import numpy as np
 import json
