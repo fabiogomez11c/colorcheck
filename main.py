@@ -15,11 +15,11 @@ fps = video.get(cv2.CAP_PROP_FPS)
 frame_count = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
 
 frame_file = "frame.png"
-det = 100
+STEP = 10
 results = []
 COLOUR_CHECKER_IMAGE_PATHS = [frame_file]
 for frame_i in tqdm(range(frame_count)):
-    if frame_i % det != 0 or frame_i == 0:
+    if frame_i % STEP != 0 or frame_i == 0:
         # if i != det:
         continue
 
