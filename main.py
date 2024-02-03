@@ -20,7 +20,6 @@ results = []
 COLOUR_CHECKER_IMAGE_PATHS = [frame_file]
 for frame_i in tqdm(range(frame_count)):
     if frame_i % STEP != 0 or frame_i == 0:
-        # if i != det:
         continue
 
     # get frame and store the frame
